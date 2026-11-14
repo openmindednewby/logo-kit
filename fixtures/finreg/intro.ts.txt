@@ -1,0 +1,64 @@
+import { drawStrokes, LogoIntroState, runLogoIntro, settleReveal, sweepStrokes } from '@dloizides/marketing-astro-kit/logoIntro';
+
+const TARGET_IDS = ['hero-mark-full-watermark', 'hero-mark-full', 'hero-mark-watermark'];
+const TIMING = { fadeInMs: 260, holdUntilMs: 2600, glideMs: 360, glideEase: 'cubic-bezier(0.65, 0, 0.35, 1)' };
+const RING_DRAW = { delayMs: 0, durationMs: 520, stepMs: 140, easing: 'ease-out' };
+const RING_SWEEP = { delayMs: 1200, durationMs: 800, stepMs: 90, easing: 'linear' };
+const SWEEP_STYLE = { colour: 'var(--intro-light)', dashShare: 0.12, width: 9 };
+const PULSE = { delay: 800, duration: 400, easing: 'ease-in-out' };
+const PULSE_SCALE = '1.07';
+const GLOW_FADE_MS = 600;
+const SETTLE = {
+  lineStartMs: 120,
+  lineStepMs: 80,
+  ruleDrawMs: 280,
+  settleAfterMs: 200,
+  settleMs: 320,
+  fadeAfterMs: 200,
+  fadeMs: 180,
+  frameStepMs: 40,
+  frameDrawMs: 560,
+  fillAfterMs: 400,
+  fillMs: 300,
+  drawEase: 'cubic-bezier(0.77, 0, 0.175, 1)',
+  settleEase: 'cubic-bezier(0.23, 1, 0.32, 1)',
+};
+
+const present = <T>(items: readonly (T | null)[]): T[] => items.filter((item): item is T => item !== null);
+
+function logoPhase(mark: HTMLElement): Animation[] {
+  const rings = Array.from(mark.querySelectorAll<SVGEllipseElement>('ellipse'));
+  const svg = mark.querySelector('svg');
+  const pulse = svg ? [svg.animate([{ scale: '1' }, { scale: PULSE_SCALE }, { scale: '1' }], PULSE)] : [];
+  return [...drawStrokes(rings, RING_DRAW), ...pulse, ...sweepStrokes(rings, RING_SWEEP, SWEEP_STYLE)];
+}
+
+function reveal(stage: HTMLElement, startMs: number): Animation[] {
+  const pick = (selector: string): HTMLElement | null => stage.querySelector<HTMLElement>(selector);
+  const lines = present([pick('.hero .eyebrow'), pick('.hero__h1'), pick('.hero__lede'), pick('.hero__chips')]);
+  const frames = [...Array.from(stage.querySelectorAll<HTMLElement>('.hero .tmk-btn')), ...present([pick('.trail')])];
+  const glow = pick('.hero__deviceGlow');
+  const glowIn = glow
+    ? [glow.animate([{ opacity: 0 }, { opacity: getComputedStyle(glow).opacity }], { delay: startMs, duration: GLOW_FADE_MS, fill: 'backwards' })]
+    : [];
+  return [...settleReveal({ stage, lines, frames, startMs, accent: 'var(--intro-accent)', timing: SETTLE }), ...glowIn];
+}
+
+function start(root: HTMLElement): void {
+  const stage = document.querySelector<HTMLElement>('.heroBand');
+  if (!stage) {
+    root.dataset.logoIntro = LogoIntroState.Done;
+    return;
+  }
+  const targets = present(TARGET_IDS.map((id) => document.querySelector<HTMLElement>(`[data-testid="${id}"]`)));
+  runLogoIntro({
+    stage,
+    targets,
+    timing: TIMING,
+    reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+    logoPhase,
+    reveal,
+  });
+}
+
+if (document.documentElement.dataset.logoIntro === LogoIntroState.Pending) start(document.documentElement);

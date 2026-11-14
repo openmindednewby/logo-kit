@@ -1,0 +1,29 @@
+{
+  "name": "FinReg",
+  "slug": "finreg",
+  "tokens": "mooncube",
+  "wordmark": { "fontFamily": "Helvetica Neue, Arial, Segoe UI, sans-serif" },
+  "mark": {
+    "viewBox": "130 130 540 540",
+    "layers": [
+      { "name": "ring0", "d": "M250 400A150 245 0 1 0 550 400A150 245 0 1 0 250 400Z", "transform": "rotate(-20 400 400)", "paint": { "dark": [{ "stroke": "ring0", "width": 24 }], "light": [{ "stroke": "outline", "width": 34 }, { "stroke": "ring0", "width": 18 }] } },
+      { "name": "ring1", "d": "M250 400A150 245 0 1 0 550 400A150 245 0 1 0 250 400Z", "transform": "rotate(40 400 400)", "paint": { "dark": [{ "stroke": "ring1", "width": 24 }], "light": [{ "stroke": "outline", "width": 34 }, { "stroke": "ring1", "width": 18 }] } },
+      { "name": "ring2", "d": "M250 400A150 245 0 1 0 550 400A150 245 0 1 0 250 400Z", "transform": "rotate(100 400 400)", "paint": { "dark": [{ "stroke": "ring2", "width": 24 }], "light": [{ "stroke": "outline", "width": 34 }, { "stroke": "ring2", "width": 18 }] } }
+    ]
+  },
+  "palette": {
+    "light": { "background": "#ffffff", "text": "#0d2340", "outline": "#0d2340", "ring0": "#f24ba7", "ring1": "#827ef2", "ring2": "#41d9bd" },
+    "dark": { "background": "#0d2340", "text": "#eafff9", "outline": "#0d2340", "ring0": "#f24ba7", "ring1": "#827ef2", "ring2": "#41d9bd" },
+    "mono": "#0d2340"
+  },
+  "motion": {
+    "intro": [
+      { "preset": "draw", "layers": ["ring0", "ring1", "ring2"], "delayMs": 0, "durationMs": 520, "stepMs": 140, "easing": "ease-out" },
+      { "preset": "pulse", "layers": ["@mark"], "delayMs": 800, "durationMs": 400, "easing": "ease-in-out", "scale": 1.07 },
+      { "preset": "sweep", "layers": ["ring0", "ring1", "ring2"], "delayMs": 1200, "durationMs": 800, "stepMs": 90, "easing": "linear", "share": 0.12, "width": 9, "colour": "text" }
+    ],
+    "micro": [{ "preset": "spread", "durationMs": 300, "distance": 12 }],
+    "allowLongIntro": "parity with the live FinReg landing intro (zygos landing/src/components/hero-mark/intro.ts), 2180 ms; MOTION-1 cap breach logged in LOGO-KIT-1"
+  },
+  "generate": { "seed": 1, "count": 200 }
+}

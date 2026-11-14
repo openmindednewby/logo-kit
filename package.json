@@ -1,0 +1,44 @@
+{
+  "name": "@dloizides/logo-kit",
+  "version": "0.1.0",
+  "description": "Logo generator for every brand: seeded mark variants, small-size, contrast, CVD and sensitive-symbol checks, motion presets by layer name, palette variants from design tokens, and the full export set from one brand.json. No network, no LLM.",
+  "keywords": ["brand", "logo", "svg", "motion", "favicon", "generator"],
+  "author": "dloizides",
+  "license": "MIT",
+  "type": "module",
+  "repository": { "type": "git", "url": "https://github.com/openmindednewby/logo-kit.git" },
+  "homepage": "https://github.com/openmindednewby/logo-kit#readme",
+  "bugs": { "url": "https://github.com/openmindednewby/logo-kit/issues" },
+  "bin": { "logo-kit": "./dist/cli.js" },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "files": ["dist", "README.md", "CHANGELOG.md"],
+  "sideEffects": false,
+  "engines": { "node": ">=18.0.0" },
+  "scripts": {
+    "build": "rimraf dist && tsup",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "security:audit": "npm audit --audit-level=high",
+    "prepublishOnly": "npm run clean && npm run build && npm run test"
+  },
+  "dependencies": {
+    "@dloizides/design-tokens": "^1.20.0",
+    "@resvg/resvg-js": "^2.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-sonarjs": "^3.0.7",
+    "rimraf": "^5.0.10",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  }
+}
