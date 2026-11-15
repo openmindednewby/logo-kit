@@ -23,5 +23,7 @@
     ],
     "micro": [{ "preset": "spread", "durationMs": 300, "distance": 1.6, "easing": "cubic-bezier(0.2,0,0,1)" }]
   },
+  "icons": { "dark": true, "share": 0.66, "radius": 0.2 },
+  "smallMark": { "viewBox": "0 0 16 16", "d": "M10 1.163A7 7 0 1 0 10 14.837A7 7 0 0 1 10 1.163ZM11.5 4L15 6V10L11.5 12L8 10V6Z", "light": "mooncube.light.text", "dark": "mooncube.dark.text" },
   "generate": { "seed": 1, "count": 200 }
 }

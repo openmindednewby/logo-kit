@@ -17,6 +17,7 @@ const confusedGreen = (): string => {
   const found = all.find((h) => deltaE(h, RED) > 40 && deltaE(simulateCvd(h, CvdKind.Deutan), simulateCvd(RED, CvdKind.Deutan)) < 4 && contrast(h, '#ffffff') >= 3);
   return found ?? '#000000';
 };
+const CHIP = 'M2 2L4 2L4 4L2 4Z';
 const DOT = 'M32 32.2L32.2 32L32 31.8L31.8 32Z';
 
 describe('runChecks', () => {
@@ -51,6 +52,33 @@ describe('runChecks', () => {
     const result = runChecks(mark, palette);
 
     expect(result.reasons.some((r) => r.startsWith('legible16: layer "speck"'))).toBe(true);
+  });
+
+  it('with a reversed ink close to the dark background, fails reversed', () => {
+    const cube = primitiveMark('cube');
+    const dim: Palette = { ...palette, light: { ...palette.light, background: '#16202c' }, dark: { ...palette.dark, background: '#0f1b2d' } };
+
+    const result = runChecks(cube, dim);
+
+    expect(result.reasons.filter((r) => r.startsWith('reversed:'))).toHaveLength(2);
+  });
+
+  it('with a role colour under 3:1 on the dark background, fails dark contrast', () => {
+    const cube = primitiveMark('cube');
+    const dull: Palette = { ...palette, dark: { ...palette.dark, a: '#22324a' } };
+
+    const result = runChecks(cube, dull);
+
+    expect(result.reasons.some((r) => r.startsWith('contrast: dark "a"'))).toBe(true);
+  });
+
+  it('with a layer of one pixel at 32 px, fails legibility at 32 px', () => {
+    const cube = primitiveMark('cube');
+    const mark: Mark = { ...cube, layers: [...cube.layers, { name: 'chip', d: CHIP, paint: { light: [{ fill: 'a' }], dark: [{ fill: 'a' }] } }] };
+
+    const result = runChecks(mark, palette);
+
+    expect(result.reasons.some((r) => r.startsWith('legible32: layer "chip"'))).toBe(true);
   });
 
   it('with a solid square, fails one colour as a solid block', () => {

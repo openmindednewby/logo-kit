@@ -23,4 +23,4 @@ export const INTRO_PRESETS: readonly MotionPreset[] = [
   MotionPreset.Pulse,
 ];
 
-export const MICRO_PRESETS: readonly MotionPreset[] = [MotionPreset.Spread, MotionPreset.Pulse];
+export const MICRO_PRESETS: readonly MotionPreset[] = [MotionPreset.Spread];

@@ -33,7 +33,7 @@ describe('totalMs', () => {
   });
 
   it('with each micro preset default on four layers, ends within 300 ms', () => {
-    const ends = MICRO_PRESETS.filter((p) => p !== MotionPreset.Pulse).map((p) => totalMs([PRESET_DEFAULTS[p] ?? { preset: p, durationMs: 0 }], FOUR));
+    const ends = MICRO_PRESETS.map((p) => totalMs([PRESET_DEFAULTS[p] ?? { preset: p, durationMs: 0 }], FOUR));
 
     const over = ends.filter((ms) => ms > MICRO_CAP_MS);
 

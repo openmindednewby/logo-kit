@@ -6,14 +6,26 @@ import type { Brand } from '../core/types';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 /** Returns a w x h canvas with a background and the mark centred at a share of the shorter side. */
-export function iconCanvas(brand: Brand, mode: Mode, size: { w: number; h: number }, share: number, background: string | null): string {
-  const side = Math.round(Math.min(size.w, size.h) * share);
-  const bg = background !== null ? `<rect width="${size.w}" height="${size.h}" fill="${background}"/>` : '';
+export function iconCanvas(brand: Brand, mode: Mode, size: { w: number; h: number }, share: number, background: string | null, radius = 0): string {
+  const side = Math.min(size.w, size.h) * share;
+  const r = Math.min(size.w, size.h) * radius;
+  const bg = background !== null ? `<rect width="${size.w}" height="${size.h}" rx="${r}" fill="${background}"/>` : '';
   const mark = placeMark(brand.mark, brand.palette, mode, { x: (size.w - side) / 2, y: (size.h - side) / 2, size: side });
   return `<svg xmlns="${SVG_NS}" width="${size.w}" height="${size.h}" viewBox="0 0 ${size.w} ${size.h}">${bg}${mark}</svg>`;
 }
 
 const TEXT_SHARE = 0.3;
+
+/** Returns the favicon: the brand's small mark when it has one (light and dark by colour scheme), else the full mark. */
+export function faviconSvg(brand: Brand, size: number): string | null {
+  const sm = brand.smallMark;
+  if (!sm) {
+    return null;
+  }
+  const name = escapeXml(brand.name);
+  const style = `<style>path{fill:${sm.light}}@media (prefers-color-scheme:dark){path{fill:${sm.dark}}}</style>`;
+  return `<svg xmlns="${SVG_NS}" viewBox="${sm.viewBox}" width="${size}" height="${size}" role="img" aria-label="${name}"><title>${name}</title>${style}<path d="${sm.d}"/></svg>`;
+}
 
 /** Returns a horizontal lockup (mark plus name) of a given height; the width follows the name length. */
 export function lockupSvg(brand: Brand, mode: Mode, height: number): { svg: string; width: number } {

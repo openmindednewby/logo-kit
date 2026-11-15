@@ -44,21 +44,43 @@ const onWhite = (data: Uint8Array, i: number): number[] => {
   return [0, 1, 2].map((k) => (data[i + k] ?? 0) * a + WHITE * (1 - a));
 };
 
-/** Returns the share of pixels that differ by more than 24 in any channel, both composited on white. */
+const differs = (x: number[], y: number[]): boolean => x.some((v, k) => Math.abs(v - (y[k] ?? 0)) > CHANNEL_TOLERANCE);
+
+function inkBox(bmps: readonly Bitmap[]): { x0: number; y0: number; x1: number; y1: number } {
+  const box = { x0: Infinity, y0: Infinity, x1: -1, y1: -1 };
+  for (const bmp of bmps) {
+    const ground = onWhite(bmp.data, (Math.floor(bmp.width / 2)) * 4);
+    for (let p = 0; p < bmp.width * bmp.height; p++) {
+      if (differs(onWhite(bmp.data, p * 4), ground)) {
+        const x = p % bmp.width;
+        const y = Math.floor(p / bmp.width);
+        box.x0 = Math.min(box.x0, x);
+        box.y0 = Math.min(box.y0, y);
+        box.x1 = Math.max(box.x1, x);
+        box.y1 = Math.max(box.y1, y);
+      }
+    }
+  }
+  return box;
+}
+
+/** Returns the share of pixels inside the marks' joint ink box that differ by more than 24 in any channel (both on white). */
 export function pixelDiff(a: Bitmap, b: Bitmap): number {
   if (a.width !== b.width || a.height !== b.height) {
     return 1;
   }
+  const box = inkBox([a, b]);
+  if (box.x1 < 0) {
+    return 0;
+  }
   let differ = 0;
-  const n = a.width * a.height;
-  for (let p = 0; p < n; p++) {
-    const ca = onWhite(a.data, p * 4);
-    const cb = onWhite(b.data, p * 4);
-    if (ca.some((v, k) => Math.abs(v - (cb[k] ?? 0)) > CHANNEL_TOLERANCE)) {
-      differ++;
+  for (let y = box.y0; y <= box.y1; y++) {
+    for (let x = box.x0; x <= box.x1; x++) {
+      const p = (y * a.width + x) * 4;
+      differ += differs(onWhite(a.data, p), onWhite(b.data, p)) ? 1 : 0;
     }
   }
-  return differ / n;
+  return differ / ((box.x1 - box.x0 + 1) * (box.y1 - box.y0 + 1));
 }
 
 /** Returns the width and height stored in a PNG header. */

@@ -23,7 +23,7 @@ describe('logo-kit sources', () => {
   it('with the package manifest, depends only on design-tokens and resvg', () => {
     const pkg = JSON.parse(readRoot('package.json')) as { dependencies: Record<string, string> };
 
-    const deps = Object.keys(pkg.dependencies).sort();
+    const deps = Object.keys(pkg.dependencies).sort((a, b) => a.localeCompare(b));
 
     expect(deps).toEqual(['@dloizides/design-tokens', '@resvg/resvg-js']);
   });

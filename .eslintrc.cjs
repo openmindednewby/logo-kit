@@ -27,5 +27,5 @@ module.exports = {
     'eqeqeq': ['error', 'always'],
     'curly': ['error', 'all'],
   },
-  ignorePatterns: ['dist/', 'node_modules/', '*.js', '**/*.test.ts', 'src/testing/'],
+  ignorePatterns: ['dist/', 'node_modules/', '*.js', '*.cjs'],
 };

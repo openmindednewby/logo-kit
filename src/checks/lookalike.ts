@@ -62,10 +62,15 @@ function crescentWithObject(mark: Mark): number {
   return best;
 }
 
+/** Returns how much a one-colour SVG silhouette resembles each sensitive symbol (0..1), in library order. */
+export function svgSymbolScores(svg: string): SymbolMatch[] {
+  const whole = gridOf(svg).grid;
+  return SYMBOLS.map((s) => ({ symbol: s.id, score: scoreAgainst(whole, gridsFor(s.id, s.silhouettes)) }));
+}
+
 /** Returns how much the mark resembles each sensitive symbol (0..1), highest first. */
 export function symbolScores(mark: Mark): SymbolMatch[] {
-  const whole = gridOf(inkSvg(mark)).grid;
-  const scores = SYMBOLS.map((s) => ({ symbol: s.id, score: scoreAgainst(whole, gridsFor(s.id, s.silhouettes)) }));
+  const scores = svgSymbolScores(inkSvg(mark));
   const compound = crescentWithObject(mark);
   const cs = scores.find((s) => s.symbol === 'crescent-star');
   if (cs && compound > cs.score) {

@@ -72,7 +72,22 @@ export interface Wordmark {
   fontFile?: string;
 }
 
+export interface IconStyle {
+  dark: boolean;
+  share: number;
+  radius: number;
+}
+
+export interface SmallMark {
+  viewBox: string;
+  d: string;
+  light: string;
+  dark: string;
+}
+
 export interface Brand {
+  icons: IconStyle;
+  smallMark?: SmallMark;
   name: string;
   slug: string;
   wordmark: Wordmark;

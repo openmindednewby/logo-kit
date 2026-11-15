@@ -20,7 +20,8 @@ const shape = (t: TimingMap): TimingMap =>
 
 function constant(src: string, name: string): Record<string, string | number> {
   const body = new RegExp(`const ${name} = \\{([^}]*)\\}`).exec(src)?.[1] ?? '';
-  return Object.fromEntries([...body.matchAll(/(\w+): ('[^']*'|[\d.]+)/g)].map((m) => [m[1] ?? '', (m[2] ?? '').startsWith("'") ? (m[2] ?? '').slice(1, -1) : Number(m[2])]));
+  const pairs = body.split(',').map((part) => part.split(': ').map((x) => x.trim())).filter((kv) => kv.length === 2);
+  return Object.fromEntries(pairs.map(([k = '', v = '']) => [k, v.startsWith("'") ? v.slice(1, -1) : Number(v)]));
 }
 
 describe('Moon Cube parity', () => {

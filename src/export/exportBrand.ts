@@ -7,7 +7,7 @@ import { markSvg } from '../core/svg';
 import type { Brand } from '../core/types';
 import { animatedSvg, introSvg, microSvg } from '../motion/motionSvg';
 import { validateMotion } from '../motion/timeline';
-import { cardSvg, iconCanvas, lockupSvg } from './canvas';
+import { cardSvg, faviconSvg, iconCanvas, lockupSvg } from './canvas';
 import { geometryModule } from './geometryModule';
 
 export interface ExportedFile {
@@ -20,7 +20,7 @@ const MARK_SIZE = 256;
 const FAVICON = 32;
 const ICO_SIZES = [16, 32, 48];
 const HEADERS: readonly [number, number][] = [[360, 40], [1280, 56]];
-const ICONS: readonly [string, number, number][] = [['apple-touch-icon.png', 180, 0.8], ['icon-192.png', 192, 0.8], ['icon-512.png', 512, 0.8], ['icon-512-maskable.png', 512, 0.6]];
+const ICONS: readonly [string, number, boolean][] = [['apple-touch-icon.png', 180, false], ['icon-192.png', 192, true], ['icon-512.png', 512, true], ['icon-512-maskable.png', 512, false]];
 
 function writer(brand: Brand, outDir: string): { svg: (f: string, s: string, w: number, h: number) => void; png: (f: string, s: string, w: number) => void; files: ExportedFile[] } {
   const files: ExportedFile[] = [];
@@ -46,7 +46,7 @@ function writeMarks(brand: Brand, w: ReturnType<typeof writer>): void {
   w.svg('mark-dark.svg', markSvg(brand.mark, brand.palette, Mode.Dark, opts), MARK_SIZE, MARK_SIZE);
   w.svg('mark-mono.svg', markSvg(brand.mark, brand.palette, Mode.Light, { ...opts, colourOverride: brand.palette.mono }), MARK_SIZE, MARK_SIZE);
   w.svg('mark-reversed.svg', markSvg(brand.mark, brand.palette, Mode.Dark, { ...opts, colourOverride: brand.palette.light['background'] ?? '#ffffff' }), MARK_SIZE, MARK_SIZE);
-  w.svg('favicon.svg', markSvg(brand.mark, brand.palette, Mode.Light, { label: brand.name, size: FAVICON }), FAVICON, FAVICON);
+  w.svg('favicon.svg', faviconSvg(brand, FAVICON) ?? markSvg(brand.mark, brand.palette, Mode.Light, { label: brand.name, size: FAVICON }), FAVICON, FAVICON);
 }
 
 function writeMotion(brand: Brand, w: ReturnType<typeof writer>): void {
@@ -58,11 +58,13 @@ function writeMotion(brand: Brand, w: ReturnType<typeof writer>): void {
 }
 
 function writeRasters(brand: Brand, w: ReturnType<typeof writer>, outDir: string): void {
-  const bgLight = brand.palette.light['background'] ?? '#ffffff';
-  for (const [file, size, share] of ICONS) {
-    w.png(file, iconCanvas(brand, Mode.Light, { w: size, h: size }, share, bgLight), size);
+  const mode = brand.icons.dark ? Mode.Dark : Mode.Light;
+  const bg = (mode === Mode.Dark ? brand.palette.dark : brand.palette.light)['background'] ?? '#ffffff';
+  for (const [file, size, rounded] of ICONS) {
+    w.png(file, iconCanvas(brand, mode, { w: size, h: size }, brand.icons.share, bg, rounded ? brand.icons.radius : 0), size);
   }
-  const icoPngs = ICO_SIZES.map((s) => renderPng(iconCanvas(brand, Mode.Light, { w: s, h: s }, 1, null), s));
+  const favicon = (s: number): string => faviconSvg(brand, s) ?? iconCanvas(brand, Mode.Light, { w: s, h: s }, 1, null);
+  const icoPngs = ICO_SIZES.map((s) => renderPng(favicon(s), s));
   fs.writeFileSync(path.join(outDir, 'favicon.ico'), buildIco(icoPngs));
   w.files.push({ file: 'favicon.ico', width: Math.max(...ICO_SIZES), height: Math.max(...ICO_SIZES) });
   w.png('og.png', cardSvg(brand, Mode.Dark, { w: 1200, h: 630 }), 1200);

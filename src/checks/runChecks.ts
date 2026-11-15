@@ -3,7 +3,10 @@ import { alphaMask, renderSvg } from '../core/raster';
 import type { Mark, Palette } from '../core/types';
 import { contrastFailures, cvdFailures, MIN_CONTRAST } from '../palette/paletteChecks';
 import { rolesOf } from '../palette/roles';
+import { Mode } from '../core/Mode';
+import { markBody, viewBoxOf } from '../core/svg';
 import { maskBox } from './grid';
+import { visibleShare } from './visible';
 import { inkSvg, symbolMatches } from './lookalike';
 
 export interface CheckResult {
@@ -42,17 +45,24 @@ function oneColour(mark: Mark): string[] {
   return fill < MIN_BOX_FILL || fill > MAX_BOX_FILL ? [`oneColour: one colour fills ${(fill * 100).toFixed(0)}% of its box, reads as ${fill > MAX_BOX_FILL ? 'a solid block' : 'dust'}`] : [];
 }
 
-function reversed(palette: Palette): string[] {
+const MIN_REVERSED_SHOWN = 0.9;
+
+function reversed(mark: Mark, palette: Palette): string[] {
   const ink2 = palette.light['background'] ?? '#ffffff';
   const bg = palette.dark['background'] ?? '#000000';
-  return contrast(ink2, bg) < MIN_CONTRAST ? [`reversed: ${ink2} on ${bg} is under 3:1`] : [];
+  const vb = viewBoxOf(mark);
+  const body = markBody(mark, palette, Mode.Light, { colourOverride: ink2 });
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${mark.viewBox}"><rect x="${vb.x}" y="${vb.y}" width="${vb.w}" height="${vb.h}" fill="${bg}"/>${body}</svg>`;
+  const shown = visibleShare(renderSvg(svg, ONE_COLOUR_SIZE), renderSvg(inkSvg(mark), ONE_COLOUR_SIZE));
+  const out = contrast(ink2, bg) < MIN_CONTRAST ? [`reversed: ${ink2} on ${bg} is under 3:1`] : [];
+  return shown < MIN_REVERSED_SHOWN ? [...out, `reversed: only ${(shown * 100).toFixed(0)}% of the mark shows on ${bg}`] : out;
 }
 
 /** Runs every check on a mark in a palette: 16/32 px, one colour, reversed, contrast, colour-blind and symbol lookalike. */
 export function runChecks(mark: Mark, palette: Palette): CheckResult {
   const roles = rolesOf(mark);
   const symbols = symbolMatches(mark).map((m) => `symbol: looks like ${m.symbol} (${m.score.toFixed(2)})`);
-  const reasons = [...legibility(mark, 16), ...legibility(mark, 32), ...oneColour(mark), ...reversed(palette), ...contrastFailures(palette, roles), ...cvdFailures(palette, roles), ...symbols];
+  const reasons = [...legibility(mark, 16), ...legibility(mark, 32), ...oneColour(mark), ...reversed(mark, palette), ...contrastFailures(palette, roles), ...cvdFailures(palette, roles), ...symbols];
   return { pass: reasons.length === 0, reasons };
 }
 

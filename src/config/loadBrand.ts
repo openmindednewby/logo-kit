@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { Brand, LayerPaint, MarkLayer, MotionConfig, Palette } from '../core/types';
+import type { Brand, IconStyle, LayerPaint, MarkLayer, MotionConfig, Palette, SmallMark } from '../core/types';
 import { DEFAULT_MOTION_CONFIG } from '../motion/defaults';
 import { resolveToken } from './tokens';
 
@@ -23,7 +23,11 @@ interface RawBrand {
   palette: { light: Record<string, string>; dark: Record<string, string>; mono?: string };
   motion?: Partial<MotionConfig>;
   generate?: { seed: number; count: number };
+  icons?: Partial<IconStyle>;
+  smallMark?: SmallMark;
 }
+
+const DEFAULT_ICONS: IconStyle = { dark: true, share: 0.66, radius: 0.2 };
 
 const DEFAULT_FONT = 'Hanken Grotesk, Arial, sans-serif';
 const DEFAULT_GENERATE = { seed: 1, count: 200 };
@@ -49,7 +53,10 @@ function toPalette(raw: RawBrand['palette'], name: string): Palette {
 /** Returns the brand from a parsed brand.json object, token references resolved to colours. */
 export function parseBrand(raw: RawBrand, baseDir: string): Brand {
   const firstRef = Object.values(raw.palette.light).find((ref) => !ref.startsWith('#'));
+  const small = raw.smallMark;
   return {
+    icons: { ...DEFAULT_ICONS, ...raw.icons },
+    ...(small ? { smallMark: { ...small, light: resolveToken(small.light), dark: resolveToken(small.dark) } } : {}),
     name: raw.name,
     slug: raw.slug,
     wordmark: raw.wordmark ?? { fontFamily: DEFAULT_FONT },

@@ -8,8 +8,12 @@ import { contrastFailures, cvdFailures } from './paletteChecks';
 import { rolesOf } from './roles';
 import { paletteVariants } from './variants';
 
-const tokenColours = (node: unknown): string[] =>
-  typeof node === 'string' ? [node.toLowerCase()] : typeof node === 'object' && node !== null ? Object.values(node).flatMap(tokenColours) : [];
+function tokenColours(node: unknown): string[] {
+  if (typeof node === 'string') {
+    return [node.toLowerCase()];
+  }
+  return typeof node === 'object' && node !== null ? Object.values(node).flatMap(tokenColours) : [];
+}
 
 describe('paletteVariants', () => {
   it('with a cube and the mooncube preset, gives at least 5 palettes that pass contrast and cvd', () => {
