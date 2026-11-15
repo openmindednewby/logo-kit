@@ -8,8 +8,16 @@ import { fromRoot, readRoot } from './testing/paths';
 const SOURCE = /\.ts$/;
 const BANNED = [/\bfetch\s*\(/, /from ['"](node:)?(http|https|net|dns|tls|dgram)['"]/, /XMLHttpRequest|WebSocket/, /anthropic|openai|@google\/generative|ollama/i, /https?:\/\/(?!www\.w3\.org\/2000\/svg)/];
 
+const isSource = (name: string): boolean => SOURCE.test(name) && !name.endsWith('.test.ts');
+
 const files = (dir: string): string[] =>
-  fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(path.join(dir, e.name)) : SOURCE.test(e.name) && !e.name.endsWith('.test.ts') ? [path.join(dir, e.name)] : []));
+  fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) {
+      return files(full);
+    }
+    return isSource(e.name) ? [full] : [];
+  });
 
 describe('logo-kit sources', () => {
   it('with every non-test source file, make no network or LLM call', () => {
