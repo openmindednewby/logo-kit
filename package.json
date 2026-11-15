@@ -1,21 +1,46 @@
 {
   "name": "@dloizides/logo-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Logo generator for every brand: seeded mark variants, small-size, contrast, CVD and sensitive-symbol checks, motion presets by layer name, palette variants from design tokens, and the full export set from one brand.json. No network, no LLM.",
-  "keywords": ["brand", "logo", "svg", "motion", "favicon", "generator"],
+  "keywords": [
+    "brand",
+    "logo",
+    "svg",
+    "motion",
+    "favicon",
+    "generator"
+  ],
   "author": "dloizides",
   "license": "MIT",
   "type": "module",
-  "repository": { "type": "git", "url": "https://github.com/openmindednewby/logo-kit.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openmindednewby/logo-kit.git"
+  },
   "homepage": "https://github.com/openmindednewby/logo-kit#readme",
-  "bugs": { "url": "https://github.com/openmindednewby/logo-kit/issues" },
-  "bin": { "logo-kit": "./dist/cli.js" },
+  "bugs": {
+    "url": "https://github.com/openmindednewby/logo-kit/issues"
+  },
+  "bin": {
+    "logo-kit": "./dist/cli.js"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
-  "files": ["dist", "README.md", "CHANGELOG.md"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "sideEffects": false,
-  "engines": { "node": ">=18.0.0" },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build": "rimraf dist && tsup",
     "test": "vitest run",
