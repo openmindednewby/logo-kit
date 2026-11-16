@@ -16,6 +16,7 @@ export interface RecipeContext {
 }
 
 const REFERENCE_SIZE = 64;
+const SETTLE_EASE = 'cubic-bezier(0.23,1,0.32,1)';
 
 type Recipe = (ctx: RecipeContext, k: number) => MotionBeat[];
 
@@ -52,6 +53,11 @@ const INTROS: Readonly<Record<string, Recipe>> = {
     fit({ preset: MotionPreset.Flip, layers: ctx.roles.parts, durationMs: 700, delayMs: 250, stepMs: 100 }),
   ],
   [IntroRecipe.SlamShake]: () => [{ preset: MotionPreset.SlamShake, layers: [MARK_TARGET], durationMs: 800 }],
+  [IntroRecipe.GrowSettle]: (ctx) => [
+    { preset: MotionPreset.Flood, layers: ctx.roles.base, durationMs: 360, easing: EASE_IN_FIRST },
+    { preset: MotionPreset.MorphFromCircle, layers: ctx.roles.parts, durationMs: 700, delayMs: 240, stops: [0, 40, 100], fadeIn: ctx.roles.parts, easing: EASE_IN_FIRST, settleEasing: SETTLE_EASE },
+    { preset: MotionPreset.Pulse, layers: [MARK_TARGET], durationMs: 260, delayMs: 920, scale: 1.04, easing: SETTLE_EASE },
+  ],
 };
 
 const spread = (ctx: RecipeContext, k: number): MotionBeat => ({ preset: MotionPreset.Spread, layers: ctx.roles.parts, durationMs: 300, distance: 1.6 * k, easing: EASE });

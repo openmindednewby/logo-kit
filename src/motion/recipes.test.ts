@@ -11,10 +11,10 @@ const LAYERS = ['disc', 'p1', 'p2', 'p3'];
 const ctx = { roles: { base: ['disc'], parts: ['p1', 'p2', 'p3'] }, size: 64 };
 
 describe('INTRO_RECIPES', () => {
-  it('with the recipe list, names the 5 pick-page intros and 5 bold intros', () => {
+  it('with the recipe list, names the 5 pick-page intros, 5 bold intros and grow-settle', () => {
     const names = [...INTRO_RECIPES];
 
-    expect(names).toEqual(['rim-then-ink', 'phase-wipe', 'faces-settle', 'turn-into-place', 'grow-from-circles', 'fly-in', 'spin-assemble', 'drop-bounce', 'flip-faces', 'slam-shake']);
+    expect(names).toEqual(['rim-then-ink', 'phase-wipe', 'faces-settle', 'turn-into-place', 'grow-from-circles', 'fly-in', 'spin-assemble', 'drop-bounce', 'flip-faces', 'slam-shake', 'grow-settle']);
   });
 });
 
@@ -39,6 +39,16 @@ describe('introRecipe', () => {
     const beats = introRecipe(IntroRecipe.GrowFromCircles, ctx);
 
     expect(beats?.map((b) => [b.preset, b.layers])).toEqual([[MotionPreset.Flood, ['disc']], [MotionPreset.MorphFromCircle, ['p1', 'p2', 'p3']]]);
+  });
+
+  it('with grow-settle, grows the parts from circles then swells the whole mark 4% and back', () => {
+    const beats = introRecipe(IntroRecipe.GrowSettle, ctx);
+
+    expect(beats?.map((b) => [b.preset, b.layers, b.durationMs, b.delayMs ?? 0, b.scale])).toEqual([
+      [MotionPreset.Flood, ['disc'], 360, 0, undefined],
+      [MotionPreset.MorphFromCircle, ['p1', 'p2', 'p3'], 700, 240, undefined],
+      [MotionPreset.Pulse, ['@mark'], 260, 920, 1.04],
+    ]);
   });
 
   it('with phase-wipe on a 640 unit mark, scales the rise distance by 10', () => {

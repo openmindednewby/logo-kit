@@ -9,6 +9,7 @@ export const enum IntroRecipe {
   DropBounce = 'drop-bounce',
   FlipFaces = 'flip-faces',
   SlamShake = 'slam-shake',
+  GrowSettle = 'grow-settle',
 }
 
 export const INTRO_RECIPES: readonly IntroRecipe[] = [
@@ -22,4 +23,5 @@ export const INTRO_RECIPES: readonly IntroRecipe[] = [
   IntroRecipe.DropBounce,
   IntroRecipe.FlipFaces,
   IntroRecipe.SlamShake,
+  IntroRecipe.GrowSettle,
 ];

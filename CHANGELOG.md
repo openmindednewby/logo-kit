@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- Intro recipe `grow-settle` (Moon Cube option "Settle overshoot"): the base floods, the parts grow from circles, then the whole mark swells 4% and settles back; ends at 1180 ms.
+
 ## 0.2.0
 
 - Motion recipes: `brand.json` `motion.intro` / `motion.micro` may name a recipe instead of a beat list. Intro recipes `rim-then-ink`, `phase-wipe`, `faces-settle`, `turn-into-place`, `grow-from-circles`, `fly-in`, `spin-assemble`, `drop-bounce`, `flip-faces`, `slam-shake`; micro recipes `faces-part`, `breath`, `rim-glint`, `part-and-glint`.
