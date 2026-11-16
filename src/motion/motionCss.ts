@@ -11,6 +11,7 @@ export interface MotionStyle {
   style: string;
   overlay: string;
   drawLayers: Set<string>;
+  microWrap: boolean;
 }
 
 export const REDUCED_MOTION = '@media (prefers-reduced-motion:reduce){*{animation:none!important}}';
@@ -22,20 +23,24 @@ interface Rule {
   supportsD: boolean;
 }
 
+const sweepClass = (index: number, hover: boolean): string => `${hover ? 'lkms' : 'lks'}${index}`;
+
 const selectorOf = (target: string, index: number, hover: boolean, sweep: boolean): string => {
-  const root = hover ? 'svg:hover' : 'svg';
-  if (target === MARK_TARGET) {
-    return `${root} #mark`;
+  if (sweep) {
+    return `${hover ? 'svg:hover' : 'svg'} .${sweepClass(index, hover)}`;
   }
-  return `${root} .${sweep ? 'lks' : 'l'}${index}`;
+  if (target === MARK_TARGET) {
+    return hover ? 'svg:hover .lkmm' : 'svg #mark';
+  }
+  return hover ? `svg:hover .lkm${index}` : `svg .l${index}`;
 };
 
-function sweepOverlay(mark: Mark, index: number, beat: MotionBeat, colour: string): string {
+function sweepOverlay(mark: Mark, index: number, beat: MotionBeat, colour: string, hover: boolean): string {
   const layer = mark.layers[index];
   if (!layer) {
     return '';
   }
-  const attrs = [`class="lks${index}"`, `d="${layer.d}"`, 'fill="none"', `stroke="${colour}"`, `stroke-width="${beat.width ?? 2}"`, 'stroke-linecap="round"', 'pathLength="1"', `stroke-dasharray="${beat.share ?? 0.12} 1"`, 'opacity="0"'];
+  const attrs = [`class="${sweepClass(index, hover)}"`, `d="${layer.d}"`, 'fill="none"', `stroke="${colour}"`, `stroke-width="${beat.width ?? 2}"`, 'stroke-linecap="round"', 'pathLength="1"', `stroke-dasharray="${beat.share ?? 0.12} 1"`, 'opacity="0"'];
   if (layer.transform !== undefined) {
     attrs.push(`transform="${layer.transform}"`);
   }
@@ -86,11 +91,11 @@ function addSlot(ctx: Build, beat: MotionBeat, b: number, slot: Slot): void {
     ctx.drawLayers.add(slot.target);
   }
   if (sweep) {
-    ctx.overlay.push(sweepOverlay(ctx.mark, index, beat, ctx.colour(beat.colour)));
+    ctx.overlay.push(sweepOverlay(ctx.mark, index, beat, ctx.colour(beat.colour), ctx.hover));
   }
 }
 
-/** Returns the CSS, sweep overlays and draw layers for beats on a mark: one rule per layer, keyframes per beat. */
+/** Returns the CSS, sweep overlays and draw layers for beats on a mark; hover beats target micro wrappers, never intro elements. */
 export function motionCss(mark: Mark, beats: readonly MotionBeat[], palette: Palette, mode: Mode, hover: boolean): MotionStyle {
   const vb = viewBoxOf(mark);
   const colours = mode === Mode.Dark ? palette.dark : palette.light;
@@ -106,5 +111,5 @@ export function motionCss(mark: Mark, beats: readonly MotionBeat[], palette: Pal
     overlay: [],
   };
   beats.forEach((beat, b) => schedule(beat, ctx.names).forEach((slot) => addSlot(ctx, beat, b, slot)));
-  return { style: render(ctx.rules, ctx.keyframes), overlay: ctx.overlay.join(''), drawLayers: ctx.drawLayers };
+  return { style: render(ctx.rules, ctx.keyframes), overlay: ctx.overlay.join(''), drawLayers: ctx.drawLayers, microWrap: hover };
 }

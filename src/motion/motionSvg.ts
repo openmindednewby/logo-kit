@@ -17,7 +17,7 @@ export function introSvg(mark: Mark, palette: Palette, mode: Mode, beats: readon
 /** Returns the mark with its hover micro-interaction. */
 export function microSvg(mark: Mark, palette: Palette, mode: Mode, beats: readonly MotionBeat[], opts: MotionSvgOptions): string {
   const m = motionCss(mark, beats, palette, mode, true);
-  return markSvg(mark, palette, mode, { ...opts, style: m.style, overlay: m.overlay, drawLayers: m.drawLayers });
+  return markSvg(mark, palette, mode, { ...opts, style: m.style, overlay: m.overlay, drawLayers: m.drawLayers, microWrap: m.microWrap });
 }
 
 /** Returns the mark with the intro and the hover micro together. */
@@ -26,7 +26,7 @@ export function animatedSvg(mark: Mark, palette: Palette, mode: Mode, motion: { 
   const micro = motionCss(mark, motion.micro, palette, mode, true);
   const style = `${intro.style.replace(REDUCED_MOTION, '')}${micro.style}`;
   const drawLayers = new Set([...intro.drawLayers, ...micro.drawLayers]);
-  return markSvg(mark, palette, mode, { ...opts, style, overlay: intro.overlay + micro.overlay, drawLayers });
+  return markSvg(mark, palette, mode, { ...opts, style, overlay: intro.overlay + micro.overlay, drawLayers, microWrap: true });
 }
 
 export { Mode };

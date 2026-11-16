@@ -9,6 +9,7 @@ export interface MarkSvgOptions {
   overlay?: string;
   drawLayers?: ReadonlySet<string>;
   colourOverride?: string;
+  microWrap?: boolean;
 }
 
 const DEFAULT_SIZE = 256;
@@ -31,20 +32,23 @@ function paintAttrs(item: PaintItem, colours: ModeColours, override?: string): s
 }
 
 /** Returns the SVG for one layer: a path, or a group of paths when the layer has several paint items. */
-export function layerSvg(layer: MarkLayer, index: number, colours: ModeColours, mode: Mode, opts: Pick<MarkSvgOptions, 'drawLayers' | 'colourOverride'> = {}): string {
+export function layerSvg(layer: MarkLayer, index: number, colours: ModeColours, mode: Mode, opts: Pick<MarkSvgOptions, 'drawLayers' | 'colourOverride' | 'microWrap'> = {}): string {
   const items = mode === Mode.Dark ? layer.paint.dark : layer.paint.light;
   const rule = layer.evenOdd === true ? ' fill-rule="evenodd"' : '';
   const len = opts.drawLayers?.has(layer.name) === true ? ' pathLength="1"' : '';
   const path = (item: PaintItem, head: string): string => `<path${head} ${paintAttrs(item, colours, opts.colourOverride)}${rule}${len} d="${layer.d}"/>`;
   const head = ` id="mark-${layer.name}" class="l${index}"`;
   const body = items.length === 1 && items[0] ? path(items[0], head) : `<g${head}>${items.map((item) => path(item, '')).join('')}</g>`;
-  return layer.transform !== undefined ? `<g transform="${layer.transform}">${body}</g>` : body;
+  const wrapped = opts.microWrap === true ? `<g class="lkm${index}">${body}</g>` : body;
+  return layer.transform !== undefined ? `<g transform="${layer.transform}">${wrapped}</g>` : wrapped;
 }
 
 /** Returns the layers of a mark as SVG markup inside a group with id "mark". */
-export function markBody(mark: Mark, palette: Palette, mode: Mode, opts: Pick<MarkSvgOptions, 'drawLayers' | 'colourOverride'> = {}): string {
+export function markBody(mark: Mark, palette: Palette, mode: Mode, opts: Pick<MarkSvgOptions, 'drawLayers' | 'colourOverride' | 'microWrap'> = {}): string {
   const colours = mode === Mode.Dark ? palette.dark : palette.light;
-  return `<g id="mark">${mark.layers.map((layer, i) => layerSvg(layer, i, colours, mode, opts)).join('')}</g>`;
+  const layers = mark.layers.map((layer, i) => layerSvg(layer, i, colours, mode, opts)).join('');
+  const body = opts.microWrap === true ? '<g class="lkmm">'.concat(layers, '</g>') : layers;
+  return `<g id="mark">${body}</g>`;
 }
 
 /** Returns a standalone SVG of the mark in one mode, with optional motion style and overlay. */
