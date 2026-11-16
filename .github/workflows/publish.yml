@@ -39,4 +39,4 @@ jobs:
           build_siblings "$PWD"
       - run: npm ci --no-audit --no-fund
       - name: Publish (prepublishOnly builds and tests)
-        run: npm publish --access public
+        run: npm publish --access public --loglevel verbose
