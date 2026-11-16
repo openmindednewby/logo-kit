@@ -9,4 +9,5 @@ export const fromRoot = (...parts: string[]): string => path.join(ROOT, ...parts
 export const readRoot = (...parts: string[]): string => fs.readFileSync(fromRoot(...parts), 'utf8');
 export const tmpDir = (name: string): string => fs.mkdtempSync(path.join(os.tmpdir(), `logo-kit-${name}-`));
 export const MOONCUBE = fromRoot('examples', 'mooncube', 'brand.json');
+export const MOONCUBE_CRESCENT = fromRoot('src', 'testing', 'fixtures', 'mooncube-crescent', 'brand.json');
 export const FINREG = fromRoot('examples', 'finreg', 'brand.json');
