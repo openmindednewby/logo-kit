@@ -67,7 +67,7 @@ export function parseBrand(raw: RawBrand, baseDir: string): Brand {
     palette: toPalette(raw.palette, raw.slug),
     motion: resolveMotion(raw.motion, raw.mark.layers.map((l) => l.name), markSizeOf(mark)),
     generate: raw.generate ?? DEFAULT_GENERATE,
-    tokens: raw.tokens ?? firstRef?.split('.')[0] ?? 'mooncube',
+    tokens: raw.tokens ?? firstRef?.split('.')[0] ?? 'flier',
     baseDir,
   };
 }

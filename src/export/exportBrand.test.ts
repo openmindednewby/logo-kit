@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { runCli } from '../cliMain';
 import { loadBrand } from '../config/loadBrand';
 import { pngSize } from '../core/raster';
-import { FINREG, MOONCUBE, readRoot, tmpDir } from '../testing/paths';
+import { TARN, QUILLO, tmpDir } from '../testing/paths';
 import { exportBrand } from './exportBrand';
 import { geometryModule } from './geometryModule';
 
@@ -43,21 +43,21 @@ const sizeOf = (file: string): [number, number] => {
 };
 
 describe('exportBrand', () => {
-  it('with the Moon Cube brand, writes every asset at its real pixel size', () => {
+  it('with the Quillo brand, writes every asset at its real pixel size', () => {
     const out = tmpDir('export');
 
-    exportBrand(loadBrand(MOONCUBE), out);
+    exportBrand(loadBrand(QUILLO), out);
 
     expect(EXPECTED.map(([f]) => [f, ...sizeOf(path.join(out, f))])).toEqual(EXPECTED.map((e) => [...e]));
     expect(HEADERS.map((f) => sizeOf(path.join(out, f))[1])).toEqual([40, 40, 56, 56]);
   });
 
-  it('with the FinReg brand, writes the same set', () => {
+  it('with the Tarn brand, writes the same set', () => {
     const out = tmpDir('export');
 
-    const files = exportBrand(loadBrand(FINREG), out).map((f) => f.file);
+    const files = exportBrand(loadBrand(TARN), out).map((f) => f.file);
 
-    expect(files).toEqual(expect.arrayContaining([...EXPECTED.map(([f]) => f), ...HEADERS, 'brand-finreg/markGeometry.ts']));
+    expect(files).toEqual(expect.arrayContaining([...EXPECTED.map(([f]) => f), ...HEADERS, 'brand-tarn/markGeometry.ts']));
   });
 });
 
@@ -66,7 +66,7 @@ describe('runCli', () => {
     const out = tmpDir('cli');
     const lines: string[] = [];
 
-    const code = runCli(['export', MOONCUBE, '--out', out], (l) => lines.push(l));
+    const code = runCli(['export', QUILLO, '--out', out], (l) => lines.push(l));
 
     expect(code).toBe(0);
     expect(lines).toContain('og.png 1200x630');
@@ -82,11 +82,11 @@ describe('runCli', () => {
 });
 
 describe('geometryModule', () => {
-  it('with the Moon Cube brand, emits the brand-mooncube markGeometry.ts byte for byte', () => {
-    const expected = readRoot('fixtures', 'mooncube', 'markGeometry.ts.txt').replace(/\r\n/g, '\n');
+  it('with the Quillo brand, emits every layer path of the mark', () => {
+    const mark = loadBrand(QUILLO).mark;
 
-    const source = geometryModule(loadBrand(MOONCUBE).mark);
+    const source = geometryModule(mark);
 
-    expect(source).toBe(expected);
+    expect(mark.layers.every((l) => source.includes(l.d))).toBe(true);
   });
 });

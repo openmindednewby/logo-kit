@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { brandCommand } from './brand/brandCli';
 import { checkVariants, runChecks } from './checks/runChecks';
 import { loadBrand } from './config/loadBrand';
 import { Mode } from './core/Mode';
@@ -13,7 +14,7 @@ import { buildPickPage, buildPickSpec } from './pick/buildPickSpec';
 
 type Out = (line: string) => void;
 
-const USAGE = 'usage: logo-kit <export|generate|pick|check> <brand.json> [--out dir] [--seed n] [--count n] [--builder build-pick-page.mjs]';
+const USAGE = 'usage: logo-kit <export|generate|pick|check|pull-brand|check-brand-copy> <brand.json> [--out dir] [--seed n] [--count n] [--builder build-pick-page.mjs]';
 
 function flags(args: readonly string[]): Map<string, string> {
   const out = new Map<string, string>();
@@ -63,6 +64,10 @@ export function runCli(args: readonly string[], out: Out = (line) => process.std
   if (file === undefined) {
     out(USAGE);
     return 2;
+  }
+  const brandExit = brandCommand(cmd, file, f, out);
+  if (brandExit !== null) {
+    return brandExit;
   }
   const refusal = cmd === 'export' || cmd === 'generate' ? motionRefusal(file) : null;
   if (refusal !== null) {

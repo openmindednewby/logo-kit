@@ -7,7 +7,7 @@ import { generateVariants, primitiveMark } from '../generate/generate';
 import { generatorPalette } from '../palette/variants';
 import { checkVariants, runChecks } from './runChecks';
 
-const palette = generatorPalette('mooncube');
+const palette = generatorPalette('flier');
 const twoTone = (a: string, b: string): Palette => ({ ...palette, light: { ...palette.light, a, b } });
 const RED = '#c0392b';
 const HEX_STEP = 17;
@@ -21,7 +21,7 @@ const CHIP = 'M2 2L4 2L4 4L2 4Z';
 const DOT = 'M32 32.2L32.2 32L32 31.8L31.8 32Z';
 
 describe('runChecks', () => {
-  it('with a plain cube in the Moon Cube generator palette, passes every check', () => {
+  it('with a plain cube in the Quillo generator palette, passes every check', () => {
     const cube = primitiveMark('cube');
 
     const result = runChecks(cube, palette);

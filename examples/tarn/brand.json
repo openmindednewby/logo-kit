@@ -1,0 +1,26 @@
+{
+  "name": "Tarn Signal",
+  "slug": "tarn",
+  "wordmark": { "fontFamily": "Helvetica Neue, Arial, Segoe UI, sans-serif" },
+  "mark": {
+    "viewBox": "0 0 100 100",
+    "layers": [
+      { "name": "loop0", "d": "M20 50A30 18 0 1 0 80 50A30 18 0 1 0 20 50Z", "paint": { "dark": [{ "stroke": "loop0", "width": 5 }], "light": [{ "stroke": "outline", "width": 7 }, { "stroke": "loop0", "width": 4 }] } },
+      { "name": "loop1", "d": "M50 18L80 70L20 70Z", "paint": { "dark": [{ "stroke": "loop1", "width": 5 }], "light": [{ "stroke": "outline", "width": 7 }, { "stroke": "loop1", "width": 4 }] } },
+      { "name": "loop2", "d": "M30 30H70V60H30Z", "paint": { "dark": [{ "stroke": "loop2", "width": 5 }], "light": [{ "stroke": "outline", "width": 7 }, { "stroke": "loop2", "width": 4 }] } }
+    ]
+  },
+  "palette": {
+    "light": { "background": "#ffffff", "text": "#1b2a1f", "outline": "#1b2a1f", "loop0": "#c2410c", "loop1": "#0f766e", "loop2": "#1d4ed8" },
+    "dark": { "background": "#1b2a1f", "text": "#f4f1e8", "outline": "#1b2a1f", "loop0": "#fb923c", "loop1": "#2dd4bf", "loop2": "#93c5fd" },
+    "mono": "#1b2a1f"
+  },
+  "motion": {
+    "intro": [
+      { "preset": "draw", "layers": ["loop0", "loop1", "loop2"], "delayMs": 0, "durationMs": 520, "stepMs": 140, "easing": "ease-out" },
+      { "preset": "sweep", "layers": ["loop0", "loop1", "loop2"], "delayMs": 820, "durationMs": 360, "stepMs": 0, "easing": "linear", "share": 0.12, "width": 2, "colour": "text" }
+    ],
+    "micro": [{ "preset": "spread", "durationMs": 300, "distance": 3 }]
+  },
+  "generate": { "seed": 1, "count": 200 }
+}

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0
+
+- `resolveRuntime(brand)` (build time) and `mountBrand(host, runtime, opts)` in `@dloizides/logo-kit/runtime`: intro, wordmark reveal and idle; reduced motion mounts the still with no motion and no idle.
+- `pullBrand` / `brandCopyDrift` and CLI `pull-brand` + `check-brand-copy` (drift = exit 1, line endings ignored).
+- Limit: the HTML wordmark plays `letter-stagger` for `typewriter` and `mask-wipe` (no glyph positions) and lists it in `runtime.limits`.
+- Brand data removed from the repo: examples, parity fixtures and pick demo are made-up brands or gone; brands with no token reference now default to the `flier` generator palette.
+
 ## 0.3.1
 
 - Fix: `startIdle` caps `durationMs` at `IDLE_CAP_MS` (600 ms), so a longer value no longer holds the idle class past the idle budget.
@@ -7,7 +14,7 @@
 
 ## 0.3.0
 
-- Intro recipe `grow-settle` (Moon Cube option "Settle overshoot"): the base floods, the parts grow from circles, then the whole mark swells 4% and settles back; ends at 1180 ms.
+- Intro recipe `grow-settle` ("Settle overshoot"): the base floods, the parts grow from circles, then the whole mark swells 4% and settles back; ends at 1180 ms.
 - Wordmark reveal recipes `letter-stagger`, `slide-from-mark`, `typewriter`, `mask-wipe`, `tracking-settle` (`wordmarkReveal`): CSS for letters classed `<prefix>-l<i>`, word width from the letter advances, a configurable start offset; reduced motion shows the name at once. `brand.json` `motion.wordmark` takes a recipe name or `{ recipe, startMs }`.
 - Idle recipes `rim-glint`, `faces-part`, `breath`, `orbit-spark` (`idleRecipe`), each at most 600 ms (`IDLE_CAP_MS`), played while a trigger class is on; `brand.json` `motion.idle` names one. Unknown wordmark or idle recipes are reported like intro and micro ones.
 - Browser-safe subpath `@dloizides/logo-kit/runtime` (no fs, no resvg): `startIdle(el, { minMs, maxMs })` adds the idle class every 8-15 s by default, skips a run while the tab is hidden, never runs under prefers-reduced-motion, and returns `stop()`.
@@ -26,8 +33,8 @@
 
 ## 0.1.1
 
-- First published version. Reversed check covers visibility as well as contrast; Pulse is no longer a micro preset (every micro preset stays under 300 ms); export output is byte-for-byte parity-tested against the live Moon Cube files; the built CLI is spawn-tested.
+- First published version. Reversed check covers visibility as well as contrast; Pulse is no longer a micro preset (every micro preset stays under 300 ms); export output is byte-for-byte parity-tested against the live brand files; the built CLI is spawn-tested.
 
 ## 0.1.0
 
-- First release: generate, check, export, pick; parity configs for Moon Cube and FinReg.
+- First release: generate, check, export, pick; parity configs for two brands.

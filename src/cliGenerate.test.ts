@@ -5,13 +5,13 @@ import { describe, expect, it } from 'vitest';
 
 import type { ChecksReport } from './checks/runChecks';
 import { runCli } from './cliMain';
-import { MOONCUBE, tmpDir } from './testing/paths';
+import { QUILLO, tmpDir } from './testing/paths';
 
 describe('runCli generate', () => {
   it('with seed 7 and 200 variants, writes checks-7.json where every dropped variant names its failed checks', () => {
     const out = tmpDir('generate');
 
-    runCli(['generate', MOONCUBE, '--seed', '7', '--count', '200', '--out', out], () => undefined);
+    runCli(['generate', QUILLO, '--seed', '7', '--count', '200', '--out', out], () => undefined);
 
     const report = JSON.parse(fs.readFileSync(path.join(out, 'checks-7.json'), 'utf8')) as ChecksReport;
     const known = /^(legible16|legible32|oneColour|reversed|contrast|cvd|symbol): /;

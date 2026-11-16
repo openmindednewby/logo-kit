@@ -1,0 +1,29 @@
+{
+  "name": "Quillo Labs",
+  "slug": "quillo",
+  "tokens": "flier",
+  "wordmark": { "fontFamily": "Hanken Grotesk, Arial, sans-serif" },
+  "mark": {
+    "viewBox": "0 0 64 64",
+    "layers": [
+      { "name": "ring", "role": "ring", "evenOdd": true, "d": "M32 6A26 26 0 1 0 32 58A26 26 0 1 0 32 6ZM32 15A17 17 0 1 1 32 49A17 17 0 1 1 32 15Z" },
+      { "name": "north", "role": "part", "d": "M32 20L38 28L26 28Z" },
+      { "name": "west", "role": "part", "d": "M24 32L30 32L30 42L24 38Z" },
+      { "name": "east", "role": "part", "d": "M34 32L40 32L40 38L34 42Z" }
+    ]
+  },
+  "palette": {
+    "light": { "background": "flier.light.background", "text": "flier.light.text", "ring": "flier.primary", "part": "flier.light.text" },
+    "dark": { "background": "flier.dark.background", "text": "flier.dark.text", "ring": "flier.accent", "part": "flier.dark.text" },
+    "mono": "flier.light.text"
+  },
+  "motion": {
+    "roles": { "base": ["ring"], "parts": ["north", "west", "east"] },
+    "intro": "grow-settle",
+    "micro": "faces-part",
+    "wordmark": "letter-stagger",
+    "idle": "faces-part"
+  },
+  "icons": { "dark": true, "share": 0.66, "radius": 0.2 },
+  "generate": { "seed": 1, "count": 200 }
+}

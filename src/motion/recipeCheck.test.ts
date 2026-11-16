@@ -21,7 +21,7 @@ function brandFile(motion: Raw): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lk2-'));
   dirs.push(dir);
   const file = path.join(dir, 'brand.json');
-  fs.writeFileSync(file, JSON.stringify(withMotion(example('mooncube'), motion)));
+  fs.writeFileSync(file, JSON.stringify(withMotion(example('quillo'), motion)));
   return file;
 }
 
@@ -36,8 +36,8 @@ afterEach(() => {
 });
 
 describe('recipes on the example brands', () => {
-  it('with every intro and micro recipe on mooncube and finreg, reports no motion error', () => {
-    const errors = ['mooncube', 'finreg'].flatMap((slug) =>
+  it('with every intro and micro recipe on quillo and tarn, reports no motion error', () => {
+    const errors = ['quillo', 'tarn'].flatMap((slug) =>
       INTRO_RECIPES.flatMap((intro, k) => {
         const brand = parseBrand(withMotion(example(slug), { intro, micro: MICRO_RECIPES[k % MICRO_RECIPES.length] }) as never, '.');
         return validateMotion(brand.motion, brand.mark.layers.map((l) => l.name)).errors.map((e) => `${slug} ${intro}: ${e}`);

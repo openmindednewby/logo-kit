@@ -6,7 +6,7 @@ import { generatorPalette } from '../palette/variants';
 import { generateVariants } from './generate';
 
 const svgs = (seed: number, count: number): string[] => {
-  const palette = generatorPalette('mooncube');
+  const palette = generatorPalette('flier');
   return generateVariants(seed, count).map((v) => markSvg(v.mark, palette, Mode.Light, { label: v.id }));
 };
 

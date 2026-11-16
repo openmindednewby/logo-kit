@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { loadBrand } from '../config/loadBrand';
 import { primitiveMark } from '../generate/generate';
-import { MOONCUBE, MOONCUBE_CRESCENT } from '../testing/paths';
+import { QUILLO, CRESCENT } from '../testing/paths';
 import { symbolMatches } from './lookalike';
 import { SYMBOLS } from './symbols';
 
@@ -18,16 +18,16 @@ describe('SYMBOLS', () => {
 });
 
 describe('symbolMatches', () => {
-  it('with the crescent Moon Cube mark (test fixture), flags crescent-and-star', () => {
-    const mark = loadBrand(MOONCUBE_CRESCENT).mark;
+  it('with the made-up crescent mark (test fixture), flags crescent-and-star', () => {
+    const mark = loadBrand(CRESCENT).mark;
 
     const matches = symbolMatches(mark);
 
     expect(matches.map((m) => m.symbol)).toContain('crescent-star');
   });
 
-  it('with the Thread rim Moon Cube example, flags no crescent-and-star', () => {
-    const mark = loadBrand(MOONCUBE).mark;
+  it('with the made-up Quillo example, flags no crescent-and-star', () => {
+    const mark = loadBrand(QUILLO).mark;
 
     const matches = symbolMatches(mark);
 

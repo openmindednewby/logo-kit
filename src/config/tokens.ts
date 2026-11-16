@@ -10,7 +10,7 @@ export function presetOf(id: string): DesignTokens {
   return preset;
 }
 
-/** Returns a colour for a token reference such as "mooncube.primary" or "mooncube.dark.text"; a "#hex" passes through. */
+/** Returns a colour for a token reference such as "<preset>.primary" or "<preset>.dark.text"; a "#hex" passes through. */
 export function resolveToken(ref: string): string {
   if (ref.startsWith('#')) {
     return ref;

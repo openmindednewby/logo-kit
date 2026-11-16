@@ -8,7 +8,7 @@ import { MARK_TARGET, PRESET_DEFAULTS } from './defaults';
 import { MotionPreset } from './MotionPreset';
 import { animatedSvg } from './motionSvg';
 
-const palette = generatorPalette('mooncube');
+const palette = generatorPalette('flier');
 const RULE = /(svg(?::hover)?) ([#.][\w-]+)\{[^{}]*animation:/g;
 
 function animatedTargets(svg: string): { intro: Set<string>; micro: Set<string> } {

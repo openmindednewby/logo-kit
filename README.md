@@ -11,4 +11,14 @@ Checks: 16/32 px legibility, one colour, reversed, contrast >= 3:1 on light and 
 
 Motion presets: draw, flood, stagger-rise, scale-pop, orbit, wipe, morph-from-circle, sweep, pulse (intro) and spread, pulse (micro). Intro <= 1200 ms and micro <= 300 ms unless `motion.allowLongIntro` names a reason. Reduced motion shows the final still.
 
-Examples: `examples/mooncube/brand.json`, `examples/finreg/brand.json`.
+Examples (made-up brands): `examples/quillo/brand.json`, `examples/tarn/brand.json`.
+
+## Brand runtime
+
+A brand's `brand.json` lives in its owner's private repo; this package holds only generic code.
+
+- `logo-kit pull-brand <source brand.json> [--out brand/x.brand.json]` copies it into a sibling app.
+- `logo-kit check-brand-copy <copy> --source <source brand.json>` exits 1 when the copy drifted.
+- Build time: `resolveRuntime(loadBrand(file))` returns plain markup (intro + still per mode, wordmark, idle).
+- Browser: `import { mountBrand } from '@dloizides/logo-kit/runtime'`; `mountBrand(host, runtime, { mode, showName })` returns `unmount()`. Under `prefers-reduced-motion: reduce` it mounts the still, no motion CSS, no idle.
+- Limit: the HTML wordmark has no glyph positions, so `typewriter` and `mask-wipe` play `letter-stagger`; `runtime.limits` names it.

@@ -40,3 +40,7 @@ export { geometryModule } from './export/geometryModule';
 export { buildPickSpec, buildPickPage } from './pick/buildPickSpec';
 export type { PickSpec } from './pick/buildPickSpec';
 export { runCli } from './cliMain';
+export { resolveRuntime } from './brand/resolveRuntime';
+export { brandCopyDrift, pullBrand } from './brand/pullBrand';
+export type { BrandDrift } from './brand/pullBrand';
+export type { BrandIdleRuntime, BrandModeRuntime, BrandRuntime, BrandWordmarkRuntime } from './runtime/BrandRuntime';

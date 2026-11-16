@@ -1,0 +1,18 @@
+{
+  "name": "Lunette Test",
+  "slug": "lunette",
+  "tokens": "flier",
+  "mark": {
+    "viewBox": "0 0 64 64",
+    "layers": [
+      { "name": "crescent", "role": "main", "d": "M48 10A26 26 0 1 0 48 54A21 21 0 1 1 48 10Z" },
+      { "name": "star", "role": "main", "d": "M46 24L48.8 30.2L55.5 31L50.5 35.6L51.9 42.2L46 38.8L40.1 42.2L41.5 35.6L36.5 31L43.2 30.2Z" }
+    ]
+  },
+  "palette": {
+    "light": { "background": "flier.light.background", "text": "flier.light.text", "main": "flier.primary" },
+    "dark": { "background": "flier.dark.background", "text": "flier.dark.text", "main": "flier.accent" },
+    "mono": "flier.light.text"
+  },
+  "generate": { "seed": 1, "count": 200 }
+}

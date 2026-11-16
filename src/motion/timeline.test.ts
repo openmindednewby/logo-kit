@@ -11,7 +11,7 @@ import { introSvg } from './motionSvg';
 import { schedule, totalMs, validateMotion } from './timeline';
 
 const FOUR = ['a', 'b', 'c', 'd'];
-const palette = generatorPalette('mooncube');
+const palette = generatorPalette('flier');
 
 describe('INTRO_PRESETS', () => {
   it('with intro and micro lists, offers at least 6 presets', () => {
