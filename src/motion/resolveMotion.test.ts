@@ -37,4 +37,28 @@ describe('resolveMotion', () => {
 
     expect(config.recipeErrors).toEqual(['motion.roles names unknown layer "moon"']);
   });
+
+  it('with a wordmark recipe and start offset, keeps both', () => {
+    const config = resolveMotion({ wordmark: { recipe: 'mask-wipe', startMs: 1850 } }, LAYERS, 64);
+
+    expect(config.wordmark).toEqual({ recipe: 'mask-wipe', startMs: 1850 });
+  });
+
+  it('with a wordmark recipe name only, starts at 0 ms', () => {
+    const config = resolveMotion({ wordmark: 'typewriter' }, LAYERS, 64);
+
+    expect(config.wordmark).toEqual({ recipe: 'typewriter', startMs: 0 });
+  });
+
+  it('with an idle recipe, keeps it', () => {
+    const config = resolveMotion({ idle: 'orbit-spark' }, LAYERS, 64);
+
+    expect(config.idle).toEqual({ recipe: 'orbit-spark' });
+  });
+
+  it('with unknown wordmark and idle recipes, records an error for each', () => {
+    const config = resolveMotion({ wordmark: 'zoom', idle: 'wobble' }, LAYERS, 64);
+
+    expect(config.recipeErrors).toEqual(['unknown wordmark recipe "zoom"', 'unknown idle recipe "wobble"']);
+  });
 });

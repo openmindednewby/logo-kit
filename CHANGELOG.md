@@ -3,6 +3,9 @@
 ## 0.3.0
 
 - Intro recipe `grow-settle` (Moon Cube option "Settle overshoot"): the base floods, the parts grow from circles, then the whole mark swells 4% and settles back; ends at 1180 ms.
+- Wordmark reveal recipes `letter-stagger`, `slide-from-mark`, `typewriter`, `mask-wipe`, `tracking-settle` (`wordmarkReveal`): CSS for letters classed `<prefix>-l<i>`, word width from the letter advances, a configurable start offset; reduced motion shows the name at once. `brand.json` `motion.wordmark` takes a recipe name or `{ recipe, startMs }`.
+- Idle recipes `rim-glint`, `faces-part`, `breath`, `orbit-spark` (`idleRecipe`), each at most 600 ms (`IDLE_CAP_MS`), played while a trigger class is on; `brand.json` `motion.idle` names one. Unknown wordmark or idle recipes are reported like intro and micro ones.
+- Browser-safe subpath `@dloizides/logo-kit/runtime` (no fs, no resvg): `startIdle(el, { minMs, maxMs })` adds the idle class every 8-15 s by default, skips a run while the tab is hidden, never runs under prefers-reduced-motion, and returns `stop()`.
 
 ## 0.2.0
 

@@ -56,9 +56,16 @@ export interface MotionBeat {
   colour?: string;
 }
 
+export interface WordmarkMotionConfig {
+  recipe: string;
+  startMs: number;
+}
+
 export interface MotionConfig {
   intro: MotionBeat[];
   micro: MotionBeat[];
+  wordmark?: WordmarkMotionConfig;
+  idle?: { recipe: string };
   allowLongIntro?: string;
   recipeErrors?: string[];
 }

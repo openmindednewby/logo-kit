@@ -1,4 +1,4 @@
-export type { Brand, LayerPaint, Mark, MarkLayer, MotionBeat, MotionConfig, PaintItem, Palette, Pt } from './core/types';
+export type { Brand, LayerPaint, Mark, MarkLayer, MotionBeat, MotionConfig, WordmarkMotionConfig, PaintItem, Palette, Pt } from './core/types';
 export { Mode, MODES } from './core/Mode';
 export { CvdKind, CVD_KINDS } from './core/CvdKind';
 export { contrast, deltaE, simulateCvd } from './core/colour';
@@ -23,6 +23,12 @@ export { IntroRecipe, INTRO_RECIPES } from './motion/IntroRecipe';
 export { MicroRecipe, MICRO_RECIPES } from './motion/MicroRecipe';
 export { introRecipe, microRecipe } from './motion/recipes';
 export type { MotionRoles, RecipeContext } from './motion/recipes';
+export { WordmarkRecipe, WORDMARK_RECIPES } from './motion/WordmarkRecipe';
+export { wordmarkReveal } from './motion/wordmark';
+export type { WordmarkMotion, WordmarkOptions } from './motion/wordmark';
+export { IdleRecipe, IDLE_RECIPES, IDLE_CAP_MS } from './motion/IdleRecipe';
+export { idleRecipe } from './motion/idle';
+export type { IdleContext, IdleMotion } from './motion/idle';
 export { resolveMotion } from './motion/resolveMotion';
 export type { RawMotion } from './motion/resolveMotion';
 export { introSvg, microSvg, animatedSvg } from './motion/motionSvg';

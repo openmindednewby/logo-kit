@@ -1,9 +1,9 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: { index: 'src/index.ts', cli: 'src/cli.ts' },
+  entry: { index: 'src/index.ts', cli: 'src/cli.ts', runtime: 'src/runtime/index.ts' },
   format: ['esm'],
-  dts: { entry: { index: 'src/index.ts' } },
+  dts: { entry: { index: 'src/index.ts', runtime: 'src/runtime/index.ts' } },
   splitting: false,
   sourcemap: true,
   clean: false,
