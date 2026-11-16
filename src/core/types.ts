@@ -61,11 +61,15 @@ export interface WordmarkMotionConfig {
   startMs: number;
 }
 
+export interface IdleMotionConfig {
+  recipe: string;
+}
+
 export interface MotionConfig {
   intro: MotionBeat[];
   micro: MotionBeat[];
   wordmark?: WordmarkMotionConfig;
-  idle?: { recipe: string };
+  idle?: IdleMotionConfig;
   allowLongIntro?: string;
   recipeErrors?: string[];
 }

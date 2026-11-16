@@ -1,4 +1,4 @@
-export type { Brand, LayerPaint, Mark, MarkLayer, MotionBeat, MotionConfig, WordmarkMotionConfig, PaintItem, Palette, Pt } from './core/types';
+export type { Brand, LayerPaint, Mark, MarkLayer, MotionBeat, MotionConfig, WordmarkMotionConfig, IdleMotionConfig, PaintItem, Palette, Pt } from './core/types';
 export { Mode, MODES } from './core/Mode';
 export { CvdKind, CVD_KINDS } from './core/CvdKind';
 export { contrast, deltaE, simulateCvd } from './core/colour';

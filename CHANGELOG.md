@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- Fix: `startIdle` caps `durationMs` at `IDLE_CAP_MS` (600 ms), so a longer value no longer holds the idle class past the idle budget.
+- The `brand.json` `motion.idle` type is now the exported `IdleMotionConfig` (same `{ recipe }` shape).
+
 ## 0.3.0
 
 - Intro recipe `grow-settle` (Moon Cube option "Settle overshoot"): the base floods, the parts grow from circles, then the whole mark swells 4% and settles back; ends at 1180 ms.

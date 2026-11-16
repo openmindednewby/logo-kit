@@ -1,3 +1,5 @@
+import { IDLE_CAP_MS } from '../motion/IdleRecipe';
+
 export interface IdleHost {
   classList: { add(name: string): void; remove(name: string): void };
 }
@@ -28,7 +30,7 @@ const tabHidden = (): boolean => browser().document?.hidden === true;
 export function startIdle(el: IdleHost, options: IdleOptions = {}): () => void {
   const minMs = options.minMs ?? DEFAULT_MIN_MS;
   const maxMs = Math.max(minMs, options.maxMs ?? DEFAULT_MAX_MS);
-  const runMs = options.durationMs ?? DEFAULT_RUN_MS;
+  const runMs = Math.min(options.durationMs ?? DEFAULT_RUN_MS, IDLE_CAP_MS);
   const className = options.className ?? 'lk-idle';
   const random = options.random ?? Math.random;
   let timer: ReturnType<typeof setTimeout> | undefined;

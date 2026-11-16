@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { IDLE_CAP_MS } from '../motion/IdleRecipe';
 import { startIdle } from './startIdle';
 
 interface FakeEl {
@@ -105,5 +106,16 @@ describe('startIdle', () => {
     vi.advanceTimersByTime(1000);
 
     expect(el.classes.size).toBe(0);
+  });
+
+  it('with a duration over the idle cap, removes the class at the cap', () => {
+    env(false, false);
+    const el = fakeEl();
+    startIdle(el, { minMs: 1000, maxMs: 1000, durationMs: 5000 });
+    vi.advanceTimersByTime(1000);
+
+    vi.advanceTimersByTime(IDLE_CAP_MS);
+
+    expect(el.classes.has('lk-idle')).toBe(false);
   });
 });
