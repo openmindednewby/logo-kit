@@ -60,6 +60,7 @@ export interface MotionConfig {
   intro: MotionBeat[];
   micro: MotionBeat[];
   allowLongIntro?: string;
+  recipeErrors?: string[];
 }
 
 export interface GenerateConfig {

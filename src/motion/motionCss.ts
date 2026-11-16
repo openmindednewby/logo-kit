@@ -62,6 +62,7 @@ interface Build {
   mark: Mark;
   names: string[];
   markCentre: { x: number; y: number };
+  markSize: number;
   colour: (role: string | undefined) => string;
   hover: boolean;
   rules: Map<string, Rule>;
@@ -73,7 +74,7 @@ interface Build {
 function addSlot(ctx: Build, beat: MotionBeat, b: number, slot: Slot): void {
   const sweep = beat.preset === MotionPreset.Sweep;
   const index = ctx.names.indexOf(slot.target);
-  const frames = presetFrames(beat, { layer: ctx.mark.layers[index] ?? null, markCentre: ctx.markCentre });
+  const frames = presetFrames(beat, { layer: ctx.mark.layers[index] ?? null, markCentre: ctx.markCentre, markSize: ctx.markSize });
   const suffix = slot.target === MARK_TARGET ? 'm' : String(index);
   const name = `lk${ctx.hover ? 'm' : 'i'}${b}-${suffix}`;
   const selector = selectorOf(slot.target, index, ctx.hover, sweep);
@@ -103,6 +104,7 @@ export function motionCss(mark: Mark, beats: readonly MotionBeat[], palette: Pal
     mark,
     names: mark.layers.map((l) => l.name),
     markCentre: { x: vb.x + vb.w / 2, y: vb.y + vb.h / 2 },
+    markSize: Math.max(vb.w, vb.h),
     colour: (role) => colours[role ?? 'text'] ?? '#ffffff',
     hover,
     rules: new Map(),

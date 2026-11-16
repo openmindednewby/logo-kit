@@ -5,7 +5,7 @@ import { pixelDiff, renderSvg } from '../core/raster';
 import { markSvg } from '../core/svg';
 import { primitiveMark } from '../generate/generate';
 import { generatorPalette } from '../palette/variants';
-import { INTRO_CAP_MS, MICRO_CAP_MS, PRESET_DEFAULTS } from './defaults';
+import { INTRO_CAP_MS, MICRO_CAP_MS, MICRO_DEFAULTS, PRESET_DEFAULTS } from './defaults';
 import { INTRO_PRESETS, MICRO_PRESETS, MotionPreset } from './MotionPreset';
 import { introSvg } from './motionSvg';
 import { schedule, totalMs, validateMotion } from './timeline';
@@ -33,7 +33,7 @@ describe('totalMs', () => {
   });
 
   it('with each micro preset default on four layers, ends within 300 ms', () => {
-    const ends = MICRO_PRESETS.map((p) => totalMs([PRESET_DEFAULTS[p] ?? { preset: p, durationMs: 0 }], FOUR));
+    const ends = MICRO_PRESETS.map((p) => totalMs([MICRO_DEFAULTS[p] ?? { preset: p, durationMs: 0 }], FOUR));
 
     const over = ends.filter((ms) => ms > MICRO_CAP_MS);
 

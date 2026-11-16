@@ -53,6 +53,7 @@ export function validateMotion(config: MotionConfig, layerNames: readonly string
   const errors = [
     ...config.intro.filter((b) => !INTRO_PRESETS.includes(b.preset)).map((b) => `unknown intro preset "${b.preset}"`),
     ...config.micro.filter((b) => !MICRO_PRESETS.includes(b.preset)).map((b) => `unknown micro preset "${b.preset}"`),
+    ...(config.recipeErrors ?? []),
     ...morphClashes(config.intro, layerNames),
   ];
   const warnings: string[] = [];

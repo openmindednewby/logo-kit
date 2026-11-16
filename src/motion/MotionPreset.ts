@@ -9,7 +9,20 @@ export const enum MotionPreset {
   Sweep = 'sweep',
   Pulse = 'pulse',
   Spread = 'spread',
+  FlyIn = 'fly-in',
+  SpinAssemble = 'spin-assemble',
+  DropBounce = 'drop-bounce',
+  Flip = 'flip',
+  SlamShake = 'slam-shake',
 }
+
+export const BOLD_PRESETS: readonly MotionPreset[] = [
+  MotionPreset.FlyIn,
+  MotionPreset.SpinAssemble,
+  MotionPreset.DropBounce,
+  MotionPreset.Flip,
+  MotionPreset.SlamShake,
+];
 
 export const INTRO_PRESETS: readonly MotionPreset[] = [
   MotionPreset.Draw,
@@ -21,6 +34,7 @@ export const INTRO_PRESETS: readonly MotionPreset[] = [
   MotionPreset.MorphFromCircle,
   MotionPreset.Sweep,
   MotionPreset.Pulse,
+  ...BOLD_PRESETS,
 ];
 
-export const MICRO_PRESETS: readonly MotionPreset[] = [MotionPreset.Spread];
+export const MICRO_PRESETS: readonly MotionPreset[] = [MotionPreset.Spread, MotionPreset.Pulse, MotionPreset.Sweep];

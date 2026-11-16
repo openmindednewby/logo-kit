@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { Brand, IconStyle, LayerPaint, MarkLayer, MotionConfig, Palette, SmallMark } from '../core/types';
-import { DEFAULT_MOTION_CONFIG } from '../motion/defaults';
+import type { Brand, IconStyle, LayerPaint, MarkLayer, Palette, SmallMark } from '../core/types';
+import { resolveMotion } from '../motion/resolveMotion';
+import type { RawMotion } from '../motion/resolveMotion';
 import { resolveToken } from './tokens';
 
 interface RawLayer {
@@ -21,11 +22,13 @@ interface RawBrand {
   wordmark?: { fontFamily: string; fontFile?: string };
   mark: { viewBox: string; layers: RawLayer[] };
   palette: { light: Record<string, string>; dark: Record<string, string>; mono?: string };
-  motion?: Partial<MotionConfig>;
+  motion?: RawMotion;
   generate?: { seed: number; count: number };
   icons?: Partial<IconStyle>;
   smallMark?: SmallMark;
 }
+
+const viewBoxSize = (viewBox: string): number => Math.max(...viewBox.trim().split(/[ ,]+/).slice(2).map(Number));
 
 const DEFAULT_ICONS: IconStyle = { dark: true, share: 0.66, radius: 0.2 };
 
@@ -62,7 +65,7 @@ export function parseBrand(raw: RawBrand, baseDir: string): Brand {
     wordmark: raw.wordmark ?? { fontFamily: DEFAULT_FONT },
     mark: { id: raw.slug, viewBox: raw.mark.viewBox, layers: raw.mark.layers.map(toLayer) },
     palette: toPalette(raw.palette, raw.slug),
-    motion: { ...DEFAULT_MOTION_CONFIG, ...raw.motion },
+    motion: resolveMotion(raw.motion, raw.mark.layers.map((l) => l.name), viewBoxSize(raw.mark.viewBox)),
     generate: raw.generate ?? DEFAULT_GENERATE,
     tokens: raw.tokens ?? firstRef?.split('.')[0] ?? 'mooncube',
     baseDir,

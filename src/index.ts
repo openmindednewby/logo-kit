@@ -17,8 +17,15 @@ export { LOOKALIKE_THRESHOLD, symbolMatches, symbolScores } from './checks/looka
 export { SYMBOLS } from './checks/symbols';
 export { paletteVariants, generatorPalette } from './palette/variants';
 export { MotionPreset, INTRO_PRESETS, MICRO_PRESETS } from './motion/MotionPreset';
-export { INTRO_CAP_MS, MICRO_CAP_MS, PRESET_DEFAULTS } from './motion/defaults';
+export { INTRO_CAP_MS, MICRO_CAP_MS, MICRO_DEFAULTS, PRESET_DEFAULTS } from './motion/defaults';
 export { schedule, totalMs, validateMotion, fitBeat } from './motion/timeline';
+export { BOLD_PRESETS } from './motion/MotionPreset';
+export { IntroRecipe, INTRO_RECIPES } from './motion/IntroRecipe';
+export { MicroRecipe, MICRO_RECIPES } from './motion/MicroRecipe';
+export { introRecipe, microRecipe } from './motion/recipes';
+export type { MotionRoles, RecipeContext } from './motion/recipes';
+export { resolveMotion } from './motion/resolveMotion';
+export type { RawMotion } from './motion/resolveMotion';
 export { introSvg, microSvg, animatedSvg } from './motion/motionSvg';
 export { parseTiming } from './motion/parseTiming';
 export type { TimingMap, AnimationTiming } from './motion/parseTiming';

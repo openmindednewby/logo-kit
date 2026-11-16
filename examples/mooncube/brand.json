@@ -18,6 +18,7 @@
     "mono": "mooncube.light.text"
   },
   "motion": {
+    "roles": { "base": ["moon"], "parts": ["top", "left", "right"] },
     "intro": [
       { "preset": "morph-from-circle", "durationMs": 1200, "stops": [0, 25, 50, 75, 100], "fadeIn": ["top", "left", "right"], "easing": "cubic-bezier(0,0,0,1)", "settleEasing": "cubic-bezier(0.2,0,0,1)" }
     ],

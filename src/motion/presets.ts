@@ -2,12 +2,14 @@ import { flattenPath } from '../core/path';
 import { centroid } from '../core/polygon';
 import type { MarkLayer, MotionBeat } from '../core/types';
 import { EASE, EASE_IN_FIRST } from './defaults';
+import { BOLD_PRESET_FRAMES } from './boldPresets';
 import { morphPair } from './morph';
 import { MotionPreset } from './MotionPreset';
 
 export interface PresetContext {
   layer: MarkLayer | null;
   markCentre: { x: number; y: number };
+  markSize: number;
 }
 
 export interface PresetFrames {
@@ -67,6 +69,7 @@ const PRESETS: Readonly<Record<string, PresetFn>> = {
   [MotionPreset.Sweep]: (b) => ({ keyframes: `0%{stroke-dashoffset:${b.share ?? 0.12};opacity:1}99%{stroke-dashoffset:-1;opacity:1}100%{stroke-dashoffset:-1;opacity:0}`, timing: b.easing ?? 'linear' }),
   [MotionPreset.Pulse]: (b) => ({ keyframes: `0%{transform:scale(1)}50%{transform:scale(${b.scale ?? 1.07})}100%{transform:scale(1)}`, timing: b.easing ?? 'ease-in-out', extra: fillBox }),
   [MotionPreset.Spread]: (b, ctx) => ({ keyframes: spreadFrames(b, ctx), timing: 'linear' }),
+  ...BOLD_PRESET_FRAMES,
 };
 
 /** Returns the keyframes and timing function of one preset for one target. */
