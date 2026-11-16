@@ -1,3 +1,4 @@
+import { Mode } from '../core/Mode';
 import type { BrandRuntime } from './BrandRuntime';
 import { startIdle } from './startIdle';
 import type { IdleHost, IdleOptions } from './startIdle';
@@ -7,7 +8,7 @@ export interface BrandHost extends IdleHost {
 }
 
 export interface MountOptions {
-  mode?: 'light' | 'dark';
+  mode?: Mode;
   showName?: boolean;
   idle?: IdleOptions;
 }
@@ -23,7 +24,7 @@ const reducedMotion = (): boolean => (globalThis as MediaGlobals).matchMedia?.(R
 /** Mounts the brand mark, wordmark and idle into host (the still under reduced motion) and returns unmount(). */
 export function mountBrand(host: BrandHost, runtime: BrandRuntime, options: MountOptions = {}): () => void {
   const still = reducedMotion();
-  const mode = runtime[options.mode ?? 'light'];
+  const mode = runtime[options.mode ?? Mode.Light];
   const showName = options.showName !== false && runtime.wordmark !== null;
   const wordmarkCss = showName ? (runtime.wordmark?.css ?? '') : '';
   const css = still ? '' : `${wordmarkCss}${runtime.idle?.css ?? ''}`;

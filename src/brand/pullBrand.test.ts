@@ -26,8 +26,8 @@ describe('pullBrand', () => {
 
     const act = (): string => pullBrand(source, dest);
 
-    expect([act, fs.existsSync(dest)]).toEqual([expect.any(Function), false]);
     expect(act).toThrow();
+    expect(fs.existsSync(dest)).toBe(false);
   });
 });
 

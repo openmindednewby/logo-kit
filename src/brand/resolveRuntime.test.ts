@@ -20,11 +20,12 @@ describe('resolveRuntime', () => {
   });
 
   it('with letter-stagger, gives one letter span per character of the name', () => {
-    const runtime = resolveRuntime(loadBrand(QUILLO));
+    const name = 'Quillo Labs';
+    const runtime = resolveRuntime(parseBrand({ ...raw(), name } as never, '.'));
 
     const spans = runtime.wordmark?.html.match(/class="lkw-l\d+"/g) ?? [];
 
-    expect([spans.length, runtime.wordmark?.recipe, runtime.limits]).toEqual(['Quillo Labs'.length, 'letter-stagger', []]);
+    expect([spans.length, runtime.wordmark?.recipe, runtime.limits]).toEqual([name.length, 'letter-stagger', []]);
   });
 
   it('with the faces-part idle, gives idle css on the lk-idle trigger', () => {

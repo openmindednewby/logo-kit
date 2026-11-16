@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.4.1
+
+- `MountOptions.mode` is typed as the `Mode` const enum.
+- Fix: the 0.4.0 note placed `resolveRuntime` in `/runtime`; it is exported from the root entry.
+
 ## 0.4.0
 
-- `resolveRuntime(brand)` (build time) and `mountBrand(host, runtime, opts)` in `@dloizides/logo-kit/runtime`: intro, wordmark reveal and idle; reduced motion mounts the still with no motion and no idle.
+- `resolveRuntime(brand)` (build time, root entry `@dloizides/logo-kit`) and `mountBrand(host, runtime, opts)` (`@dloizides/logo-kit/runtime`): intro, wordmark reveal and idle; reduced motion mounts the still with no motion and no idle.
 - `pullBrand` / `brandCopyDrift` and CLI `pull-brand` + `check-brand-copy` (drift = exit 1, line endings ignored).
 - Limit: the HTML wordmark plays `letter-stagger` for `typewriter` and `mask-wipe` (no glyph positions) and lists it in `runtime.limits`.
 - Brand data removed from the repo: examples, parity fixtures and pick demo are made-up brands or gone; brands with no token reference now default to the `flier` generator palette.

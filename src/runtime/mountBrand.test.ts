@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { Mode } from '../core/Mode';
 import type { BrandRuntime } from './BrandRuntime';
 import { mountBrand } from './mountBrand';
 
@@ -51,7 +52,7 @@ describe('mountBrand', () => {
     reduce(false);
     const host = fakeHost();
 
-    mountBrand(host, RUNTIME, { mode: 'dark', showName: false });
+    mountBrand(host, RUNTIME, { mode: Mode.Dark, showName: false });
 
     expect([host.innerHTML.includes('intro-dark'), host.innerHTML.includes('lk-wordmark')]).toEqual([true, false]);
   });

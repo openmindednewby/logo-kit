@@ -1,6 +1,6 @@
 {
   "name": "@dloizides/logo-kit",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Logo generator for every brand: seeded mark variants, small-size, contrast, CVD and sensitive-symbol checks, motion presets by layer name, palette variants from design tokens, and the full export set from one brand.json. No network, no LLM.",
   "keywords": [
     "brand",
