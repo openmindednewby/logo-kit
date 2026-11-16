@@ -59,6 +59,12 @@ export function markSvg(mark: Mark, palette: Palette, mode: Mode, opts: MarkSvgO
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${mark.viewBox}" width="${size}" height="${size}" role="img" aria-label="${label}"><title>${label}</title>${style}${markBody(mark, palette, mode, opts)}${opts.overlay ?? ''}</svg>`;
 }
 
+/** Returns the larger side of the mark's viewBox. */
+export function markSizeOf(mark: Mark): number {
+  const vb = viewBoxOf(mark);
+  return Math.max(vb.w, vb.h);
+}
+
 /** Returns the mark's viewBox as numbers. */
 export function viewBoxOf(mark: Mark): { x: number; y: number; w: number; h: number } {
   const [x = 0, y = 0, w = 1, h = 1] = mark.viewBox.trim().split(/[\s,]+/).map(Number);

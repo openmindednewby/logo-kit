@@ -1,6 +1,6 @@
 import { Mode } from '../core/Mode';
 import type { Mark, MotionBeat, Palette } from '../core/types';
-import { viewBoxOf } from '../core/svg';
+import { markSizeOf, viewBoxOf } from '../core/svg';
 import { MARK_TARGET } from './defaults';
 import { MotionPreset } from './MotionPreset';
 import { presetFrames } from './presets';
@@ -104,7 +104,7 @@ export function motionCss(mark: Mark, beats: readonly MotionBeat[], palette: Pal
     mark,
     names: mark.layers.map((l) => l.name),
     markCentre: { x: vb.x + vb.w / 2, y: vb.y + vb.h / 2 },
-    markSize: Math.max(vb.w, vb.h),
+    markSize: markSizeOf(mark),
     colour: (role) => colours[role ?? 'text'] ?? '#ffffff',
     hover,
     rules: new Map(),

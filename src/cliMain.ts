@@ -43,6 +43,11 @@ function generate(file: string, f: Map<string, string>, out: Out): number {
   return 0;
 }
 
+function motionRefusal(file: string): string | null {
+  const errors = loadBrand(file).motion.recipeErrors ?? [];
+  return errors.length > 0 ? `motion: ${errors.join('; ')}` : null;
+}
+
 function check(file: string, out: Out): number {
   const brand = loadBrand(file);
   const result = runChecks(brand.mark, brand.palette);
@@ -58,6 +63,11 @@ export function runCli(args: readonly string[], out: Out = (line) => process.std
   if (file === undefined) {
     out(USAGE);
     return 2;
+  }
+  const refusal = cmd === 'export' || cmd === 'generate' ? motionRefusal(file) : null;
+  if (refusal !== null) {
+    out(refusal);
+    return 1;
   }
   if (cmd === 'export') {
     const files = exportBrand(loadBrand(file), f.get('out') ?? 'export');
