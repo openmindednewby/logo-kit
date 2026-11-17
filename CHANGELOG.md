@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+- Raster motion presets: whole-image motion for a logo that has no SVG layers (a PNG or WebP). Intros `fade-up`, `scale-settle`, `mask-wipe`, `light-sweep`, `focus-in`, `glow-sweep`, `punch-sweep`, `double-sweep`, `burst-settle`, `tilt-sweep` (600-1140 ms, cap 1200 ms); micros `pulse`, `glint`, `nudge`, `underline-draw` (200-280 ms, cap 300 ms); idle loops `slow-glint` (7 s), `glow-breathe` (6 s), `sheen-drift` (8 s), `soft-lift` (6.5 s), `twin-shimmer` (8 s).
+- `rasterMarkup(src, alt)` writes the layered HTML; `rasterMotion({ intro, micro, idle }, { glowColour, bandColour })` writes one stylesheet (the idle loop starts when the intro ends) and lists unknown names; `rasterIntro` / `rasterMicro` / `rasterIdle` give one preset with its timing.
+- Runtime `startRasterMotion(host, { idle: true })` plays the intro and idle, pauses them while the tab is hidden, returns `micro()` (capped at 300 ms) and `stop()`. Under `prefers-reduced-motion: reduce` it sets nothing and the CSS holds the finished still.
+
 ## 0.4.1
 
 - `MountOptions.mode` is typed as the `Mode` const enum.

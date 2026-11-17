@@ -1,0 +1,18 @@
+export const enum RasterLayer {
+  Img = 'img',
+  In = 'in',
+  Nod = 'nod',
+  Lift = 'lift',
+  Glow = 'glow',
+  Haze = 'haze',
+  Ring = 'ring',
+  Rays = 'rays',
+  Spark = 'spark',
+  Shadow = 'shadow',
+  Line = 'line',
+  S0 = 's0',
+  S1 = 's1',
+  I0 = 'i0',
+  I1 = 'i1',
+  M0 = 'm0',
+}

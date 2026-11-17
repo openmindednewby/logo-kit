@@ -13,6 +13,14 @@ Motion presets: draw, flood, stagger-rise, scale-pop, orbit, wipe, morph-from-ci
 
 Examples (made-up brands): `examples/quillo/brand.json`, `examples/tarn/brand.json`.
 
+## Raster logos
+
+For a logo that exists only as an image (PNG, WebP), motion acts on the whole image. Colours come in as options (pass design-token values); nothing brand-specific is in the package.
+
+- `rasterMarkup(src, alt, { width })` returns the layered HTML; `rasterMotion({ intro, micro, idle }, { glowColour, bandColour })` returns `{ css, introMs, microMs, periodMs, unknown }`.
+- Intros: fade-up, scale-settle, mask-wipe, light-sweep, focus-in, glow-sweep, punch-sweep, double-sweep, burst-settle, tilt-sweep (<= 1200 ms). Micros: pulse, glint, nudge, underline-draw (<= 300 ms). Idle loops: slow-glint, glow-breathe, sheen-drift, soft-lift, twin-shimmer (6-8 s, starting when the intro ends).
+- Browser: `startRasterMotion(host, { idle: true })` from `@dloizides/logo-kit/runtime` returns `{ micro, stop }`, pauses while the tab is hidden and does nothing under reduced motion, where the CSS shows the still.
+
 ## Brand runtime
 
 A brand's `brand.json` lives in its owner's private repo; this package holds only generic code.
