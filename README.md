@@ -20,6 +20,7 @@ For a logo that exists only as an image (PNG, WebP), motion acts on the whole im
 - `rasterMarkup(src, alt, { width })` returns the layered HTML; `rasterMotion({ intro, micro, idle }, { glowColour, bandColour })` returns `{ css, introMs, microMs, periodMs, unknown }`.
 - Intros: fade-up, scale-settle, mask-wipe, light-sweep, focus-in, glow-sweep, punch-sweep, double-sweep, burst-settle, tilt-sweep (<= 1200 ms). Micros: pulse, glint, nudge, underline-draw (<= 300 ms). Idle loops: slow-glint, glow-breathe, sheen-drift, soft-lift, twin-shimmer (6-8 s, starting when the intro ends).
 - Browser: `startRasterMotion(host, { idle: true })` from `@dloizides/logo-kit/runtime` returns `{ micro, stop }`, pauses while the tab is hidden and does nothing under reduced motion, where the CSS shows the still.
+- React / React Native: `import { MotionLogo } from '@dloizides/logo-kit/react'` (`react` and `react-native` are optional peers). Props `src`, `label` (re-read on change), `hint`, `intro` / `micro` / `idle` preset names, `glowColour`, `bandColour`, `width`, `aspectRatio`, `testID`; the ref exposes `micro()`. On native it renders a still `Image`; under reduced motion the still stays.
 
 ## Brand runtime
 

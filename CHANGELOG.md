@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0
+
+- React entry `@dloizides/logo-kit/react`: `MotionLogo` hosts a raster logo, injects the markup and preset CSS, plays intro and idle, exposes `micro()` through its ref and stops on unmount. `react` and `react-native` are optional peers.
+- Native renders a still `Image`; reduced motion keeps the still; a changed `label` or preset re-renders the markup.
+
 ## 0.5.0
 
 - Raster motion presets: whole-image motion for a logo that has no SVG layers (a PNG or WebP). Intros `fade-up`, `scale-settle`, `mask-wipe`, `light-sweep`, `focus-in`, `glow-sweep`, `punch-sweep`, `double-sweep`, `burst-settle`, `tilt-sweep` (600-1140 ms, cap 1200 ms); micros `pulse`, `glint`, `nudge`, `underline-draw` (200-280 ms, cap 300 ms); idle loops `slow-glint` (7 s), `glow-breathe` (6 s), `sheen-drift` (8 s), `soft-lift` (6.5 s), `twin-shimmer` (8 s).
