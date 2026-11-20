@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0
+
+- Runtime `mountWordmark(host, runtime, { color, fontPx, still })` paints a wordmark host and returns a cleanup; `wordmarkMarkup(runtime, still)` gives the wordmark with or without its reveal style; `MARK_STYLE` sizes the brand mark to its host. No brand data: the caller passes colour and size.
+
 ## 0.6.0
 
 - React entry `@dloizides/logo-kit/react`: `MotionLogo` hosts a raster logo, injects the markup and preset CSS, plays intro and idle, exposes `micro()` through its ref and stops on unmount. `react` and `react-native` are optional peers.

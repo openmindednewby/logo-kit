@@ -1,6 +1,8 @@
 export { startIdle } from './startIdle';
 export type { IdleHost, IdleOptions } from './startIdle';
 export { mountBrand } from './mountBrand';
+export { MARK_STYLE, mountWordmark, wordmarkMarkup } from './mountWordmark';
+export type { WordmarkHost, WordmarkOptions } from './mountWordmark';
 export type { BrandHost, MountOptions } from './mountBrand';
 export type { BrandIdleRuntime, BrandModeRuntime, BrandRuntime, BrandWordmarkRuntime } from './BrandRuntime';
 export { startRasterMotion } from './startRasterMotion';
